@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestCalculatePostfix(t *testing.T) {
+func TestEvaluatePostfix(t *testing.T) {
 	testCases := []struct {
 		expression string
 		expected   int
@@ -34,7 +34,7 @@ func TestCalculatePostfix(t *testing.T) {
 	}
 }
 
-func ExampleCalculatePostfix() {
+func ExampleEvaluatePostfix() {
 	res, _ := EvaluatePostfix("5 1 2 + 4 * + 3 -")
 	fmt.Println(res)
 	// Output: 14
