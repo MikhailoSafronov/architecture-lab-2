@@ -24,7 +24,7 @@ func TestCalculatePostfix(t *testing.T) {
 	}
 
 	for _, tc := range testCases {
-		result, err := CalculatePostfix(tc.expression)
+		result, err := EvaluatePostfix(tc.expression)
 		if tc.isError {
 			assert.Error(t, err, "expected error for input '%s'", tc.expression)
 		} else {
@@ -35,7 +35,7 @@ func TestCalculatePostfix(t *testing.T) {
 }
 
 func ExampleCalculatePostfix() {
-	res, _ := CalculatePostfix("5 1 2 + 4 * + 3 -")
+	res, _ := EvaluatePostfix("5 1 2 + 4 * + 3 -")
 	fmt.Println(res)
 	// Output: 14
 }
