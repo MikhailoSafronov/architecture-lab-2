@@ -35,7 +35,7 @@ func TestCalculatePostfix(t *testing.T) {
 }
 
 func ExampleCalculatePostfix() {
-	res, _ := CalculatePostfix("5 1 2 + 4 * + 3 -")
+	res, _ := EvaluatePostfix("5 1 2 + 4 * + 3 -")
 	fmt.Println(res)
 	// Output: 14
 }
