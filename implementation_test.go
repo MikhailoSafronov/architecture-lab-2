@@ -10,7 +10,7 @@ import (
 func TestEvaluatePostfix(t *testing.T) {
 	testCases := []struct {
 		expression string
-		expected   string
+		expected   int
 		isError    bool
 	}{
 		{"5 4 2 - 3 2 ^ * +", 23, false},
