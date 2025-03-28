@@ -1,23 +1,25 @@
 package lab2
 
 import (
-	"math"
+	"errors"
 	"strconv"
 	"strings"
 )
 
-func CalculatePostfix(expression string) (int, error) {
-	stack := []int{}
-
+// EvaluatePostfix обчислює постфіксний вираз
+func EvaluatePostfix(expression string) (string, error) {
 	tokens := strings.Fields(expression)
+	stack := []float64{}
 
 	for _, token := range tokens {
-		switch token {
-		case "+", "-", "*", "/", "^":
+		if num, err := strconv.ParseFloat(token, 64); err == nil {
+			stack = append(stack, num)
+		} else {
 			if len(stack) < 2 {
-				return 0, strconv.ErrSyntax
+				return "", errors.New("недостатньо операндів для операції")
 			}
-			b, a := stack[len(stack)-1], stack[len(stack)-2]
+
+			a, b := stack[len(stack)-2], stack[len(stack)-1]
 			stack = stack[:len(stack)-2]
 
 			switch token {
@@ -29,24 +31,24 @@ func CalculatePostfix(expression string) (int, error) {
 				stack = append(stack, a*b)
 			case "/":
 				if b == 0 {
-					return 0, strconv.ErrSyntax
+					return "", errors.New("ділення на нуль")
 				}
 				stack = append(stack, a/b)
 			case "^":
-				stack = append(stack, int(math.Pow(float64(a), float64(b))))
+				res := 1.0
+				for i := 0; i < int(b); i++ {
+					res *= a
+				}
+				stack = append(stack, res)
+			default:
+				return "", errors.New("невідомий оператор: " + token)
 			}
-		default:
-			number, err := strconv.Atoi(token)
-			if err != nil {
-				return 0, err
-			}
-			stack = append(stack, number)
 		}
 	}
 
 	if len(stack) != 1 {
-		return 0, strconv.ErrSyntax
+		return "", errors.New("неправильний вираз")
 	}
 
-	return stack[0], nil
+	return strconv.FormatFloat(stack[0], 'f', -1, 64), nil
 }
