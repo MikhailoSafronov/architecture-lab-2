@@ -7,7 +7,7 @@ import (
 )
 
 // EvaluatePostfix обчислює постфіксний вираз
-func EvaluatePostfix(expression string) (string, error) {
+func EvaluatePostfix(expression string) (int, error) {
 	tokens := strings.Fields(expression)
 	stack := []float64{}
 
@@ -16,7 +16,7 @@ func EvaluatePostfix(expression string) (string, error) {
 			stack = append(stack, num)
 		} else {
 			if len(stack) < 2 {
-				return "", errors.New("недостатньо операндів для операції")
+				return 0, errors.New("недостатньо операндів для операції")
 			}
 
 			a, b := stack[len(stack)-2], stack[len(stack)-1]
@@ -31,7 +31,7 @@ func EvaluatePostfix(expression string) (string, error) {
 				stack = append(stack, a*b)
 			case "/":
 				if b == 0 {
-					return "", errors.New("ділення на нуль")
+					return 0, errors.New("ділення на нуль")
 				}
 				stack = append(stack, a/b)
 			case "^":
@@ -41,14 +41,14 @@ func EvaluatePostfix(expression string) (string, error) {
 				}
 				stack = append(stack, res)
 			default:
-				return "", errors.New("невідомий оператор: " + token)
+				return 0, errors.New("невідомий оператор: " + token)
 			}
 		}
 	}
 
 	if len(stack) != 1 {
-		return "", errors.New("неправильний вираз")
+		return 0, errors.New("неправильний вираз")
 	}
 
-	return strconv.FormatFloat(stack[0], 'f', -1, 64), nil
+	return int(stack[0]), nil
 }
