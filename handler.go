@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"strconv"
 	"strings"
 )
 
@@ -28,6 +29,6 @@ func (ch *ComputeHandler) Compute() error {
 		return fmt.Errorf("computation error: %w", err)
 	}
 
-	_, err = ch.Output.Write([]byte(result))
+	_, err = ch.Output.Write([]byte(strconv.Itoa(result)))
 	return err
 }
